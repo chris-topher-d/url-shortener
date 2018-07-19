@@ -4,21 +4,28 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const shortUrl = require('./models/shortUrl');
+// const option = {
+//     socketTimeoutMS: 30000,
+//     keepAlive: true,
+//     reconnectTries: 30000,
+//     useNewUrlParser: true
+// };
 
 app.use(bodyParser.json());
 app.use(cors());
 
 // Connect to DB
+// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/shortUrls', { useNewUrlParser: true });
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/shortUrls');
 
 // Access public folder
 app.use(express.static(__dirname + '/public'));
 
 // Create db entry
-app.get('/new/:urlToShorten(*)', (req, res) => {
-  let { urlToShorten } = req.params;
+app.get('/new', (req, res) => {
+  let urlToShorten = req.query.url
   let regExp = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-  let data = new shortUrl({
+  var data = new shortUrl({
     originalUrl: urlToShorten,
     shortenedUrl: ''
   });
