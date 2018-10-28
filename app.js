@@ -4,12 +4,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const shortUrl = require('./models/shortUrl');
-// const option = {
-//     socketTimeoutMS: 30000,
-//     keepAlive: true,
-//     reconnectTries: 30000,
-//     useNewUrlParser: true
-// };
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -35,7 +29,7 @@ app.get('/new', (req, res) => {
     data.shortenedUrl = short;
 
     data.save(err => {
-      if (err) return res.sendd('Error saving to database');
+      if (err) return res.send('Error saving to database');
     });
 
     return res.json(data);
